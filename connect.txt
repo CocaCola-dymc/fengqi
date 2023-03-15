@@ -1,0 +1,9 @@
+//硬件接线说明
+
+esp32			rc522
+
+P19			MISO
+P21			MOSI
+P16			SCK
+P17			SDA
+P4			RST
