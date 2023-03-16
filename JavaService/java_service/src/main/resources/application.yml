@@ -1,0 +1,42 @@
+##指定默认的环境表示
+#spring:
+#  config:
+#    activate:
+#      on-profile: dev
+#---
+#
+##指定环境名称
+#server:
+#  port: 8080
+#
+##属性赋值操作
+#spring:
+#  redis:
+#    host: 192.168.126.129
+#    port: 6379
+#  profiles: dev
+#
+#---   #将环境一分为二
+#
+#server:
+#  port: 8090
+#
+##属性赋值操作
+#spring:
+#  redis:
+#    host: 192.168.126.130
+#    port: 6380
+#  profiles: prod
+
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/fqdb?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: root
+
+logging:
+  level:
+    com.dymc.mapper: debug
