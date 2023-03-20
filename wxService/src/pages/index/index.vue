@@ -1,7 +1,9 @@
 <template>
   <div class="wrapper">
-    <button @click="doorOpen">开门</button>
-    <van-button type="primary" @click="queryUser">查询</van-button>
+    <!-- <image width="100" height="auto" src="../../static/images/qihuo.png"></image> -->
+    <!-- <button @click="doorOpen">开门</button>
+    <van-button type="primary" @click="queryUser">查询</van-button> -->
+    
   </div>
 </template>
 
@@ -13,8 +15,8 @@ const mqttPort = "8083";
 const mqttUrl = `wx://${mqttHost}:${mqttPort}/mqtt`;
 const baseUrl = 'http://127.0.0.1:8080'
 
-const publish_Topic = "door_topic";
-const subscribe_Topic = "card_topic";
+const publish_Topic = "door_topic";         //发布主题
+const subscribe_Topic = "card_topic";       //订阅主题
 
 export default {
   data () {
@@ -62,7 +64,7 @@ export default {
     }
   },
 
-  onShow(){
+  onLoad(){
     var that = this
     //连接MQTT
     that.client = connect(mqttUrl)
@@ -98,6 +100,6 @@ export default {
 <style scoped>
 .wrapper{
   padding: 15px;
-  background-color: yellow;
+  
 }
 </style>
