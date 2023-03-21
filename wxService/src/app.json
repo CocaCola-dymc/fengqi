@@ -1,10 +1,13 @@
 {
   "pages": [
+    "pages/mine/main",
+    "pages/settings/main",
+    "pages/index/main",
+    "pages/deposit/main",
+    "pages/confirm/main",
     "pages/welcome/main",
     "pages/login/main",
-    "pages/register/main",
-    "pages/index/main",
-    "pages/mine/main"
+    "pages/register/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -37,6 +40,7 @@
     "van-row": "@vant/weapp/row/index",
     "van-col": "@vant/weapp/col/index",
     "van-icon": "@vant/weapp/icon/index",
-    "van-field": "@vant/weapp/field/index"
+    "van-field": "@vant/weapp/field/index",
+    "van-switch": "@vant/weapp/switch/index"
   }
 }

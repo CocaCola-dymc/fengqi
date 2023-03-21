@@ -25,7 +25,7 @@
       
       <div class="button">
         <van-button round type="danger" icon="replay">重置</van-button>
-        <van-button round type="primary" icon="passed">登陆</van-button>
+        <van-button round type="primary" icon="completed">登陆</van-button>
       </div>
 
     </div>
