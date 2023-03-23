@@ -1,9 +1,19 @@
 //硬件接线说明
 
-esp32			rc522
+单片机		硬件		接入引脚		引脚说明
+esp32		rc522		P19		MISO
+esp32		rc522		P21		MOSI
+esp32		rc522		P16		SCK
+esp32		rc522		P17		SDA
+esp32		rc522		P4		RST
+esp32		DS18B20		P13		DQ
+esp32		火焰传感器	P34		DO
+esp32		光敏传感器	P14		DO
+esp32		蜂鸣器		P22		I/O
+esp32		MG90S舵机	P12		PWM
+esp32		LED		P15		二极管正极
 
-P19			MISO
-P21			MOSI
-P16			SCK
-P17			SDA
-P4			RST
+
+
+		
+
