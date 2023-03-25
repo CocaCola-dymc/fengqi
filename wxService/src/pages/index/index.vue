@@ -71,6 +71,7 @@
           </div>
         </div>
       </div>
+      <button @click="queryUser">查询</button>
     </div>
   </div>
 </template>
@@ -89,8 +90,8 @@ const subscribe_Topic = "card_topic";       //订阅主题
 export default {
   data () {
     return {
-      flag_user: false,
-      flag_admin: true,
+      flag_user: null,
+      flag_admin: null,
       client:{},
       info:{},
       checked: true,
@@ -126,19 +127,20 @@ export default {
         success: (res) => {
           let data = res.data
           console.log(data)
-          // //获取返回值列表
-          // list = res.data.data
-          // //返回值设置至data
-          // this.setData({
-          //   list: list
-          // })
         }
       })
     }
   },
 
-  onLoad(){
-    var that = this
+  onLoad(option){
+    //获取注册页面传入的参数
+    //传入的参数为string类型，需要转换成Number类型,再转换成Boolean类型
+    //先将字符串"1"和"0"转换成数字1和0,再通过Boolean转换成true和false
+    this.flag_user = Boolean(Number(option.flag_user))
+    this.flag_admin = Boolean(Number(option.flag_admin))
+
+    var that = this    
+    //开始发送http请求
     //连接MQTT
     that.client = connect(mqttUrl)
 

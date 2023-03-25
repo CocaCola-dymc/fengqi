@@ -44,6 +44,7 @@
   "compileType": "miniprogram",
   "appid": "wxef0fcef5049be834",
   "projectname": "wxservice",
+  "libVersion": "2.30.2",
   "condition": {
     "search": {
       "list": []

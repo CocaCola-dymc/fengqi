@@ -1,13 +1,13 @@
 {
   "pages": [
-    "pages/mine/main",
-    "pages/settings/main",
-    "pages/index/main",
-    "pages/deposit/main",
-    "pages/confirm/main",
-    "pages/welcome/main",
+    "pages/register/main",
     "pages/login/main",
-    "pages/register/main"
+    "pages/index/main",
+    "pages/welcome/main",
+    "pages/confirm/main",
+    "pages/deposit/main",
+    "pages/mine/main",
+    "pages/settings/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
