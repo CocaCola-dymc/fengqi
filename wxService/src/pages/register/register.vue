@@ -67,7 +67,7 @@ const baseUrl = 'http://127.0.0.1:8080'
       onLoad(){
         // // 前台判断username是否存在数据库
         // wx.request({
-        //   url: baseUrl+'/user/doFindUsers',
+        //   url: baseUrl+'/fengqi/doFindUsers',
         //   method: "GET",
         //   //成功回调函数
         //   success: (res) => {
@@ -99,7 +99,7 @@ const baseUrl = 'http://127.0.0.1:8080'
       //校验用户名，防止重名或为空
       checkUsername(){
         wx.request({
-          url: baseUrl+'/user/doQueryUser',
+          url: baseUrl+'/fengqi/doQueryUser',
           method: "POST",
           data:{
             username: this.username,
@@ -187,7 +187,7 @@ const baseUrl = 'http://127.0.0.1:8080'
       onRegister(){
         if(this.checkUsername1 && this.checkPassword() && this.checkPhone()){   //如果三项都正确
           wx.request({
-            url: baseUrl+'/user/doInsertUser',
+            url: baseUrl+'/fengqi/doInsertUser',
             method: "POST",
             data:{
               username: this.username,

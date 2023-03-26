@@ -26,12 +26,12 @@
     methods: {
       adminLogin(){
         wx.navigateTo({
-          url:'/pages/login/main'
+          url:'/pages/login/main?flag_user=0&flag_admin=1'
         })
       },
       userLogin(){
         wx.navigateTo({
-          url:'/pages/login/main'
+          url:'/pages/login/main?flag_user=1&flag_admin=0'
         })
       },
       register(){

@@ -71,7 +71,6 @@
           </div>
         </div>
       </div>
-      <button @click="queryUser">查询</button>
     </div>
   </div>
 </template>
@@ -138,6 +137,7 @@ export default {
     //先将字符串"1"和"0"转换成数字1和0,再通过Boolean转换成true和false
     this.flag_user = Boolean(Number(option.flag_user))
     this.flag_admin = Boolean(Number(option.flag_admin))
+
 
     var that = this    
     //开始发送http请求

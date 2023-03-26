@@ -8,7 +8,6 @@
           placeholder="请输入用户名"
           :value="username"
           @input="username = $event.mp.detail"
-          @blur="checkUsername"
           :state="usernameState"
           icon="user-o"
         />
@@ -19,7 +18,6 @@
           placeholder="请输入密码"
           :value="password"
           @input="password = $event.mp.detail"
-          @blur="checkPassword"
           :state="passwordState"
           icon="eye-o"
         />
@@ -52,12 +50,10 @@ const baseUrl = 'http://127.0.0.1:8080'
         this.password = "";
       },
 
-      checkUsername(){
-
-      },
       onLogin(){
+        //根据identity判断查询哪个数据表
         wx.request({
-          url: baseUrl+'/user/doQueryUsers',
+          url: baseUrl+`/fengqi/doQuery${this.identity}`,
           method: "POST",
           data:{
             username: this.username,
@@ -89,7 +85,7 @@ const baseUrl = 'http://127.0.0.1:8080'
             //switchTab 只能打开 tabBar 页面。
             //reLaunch 可以打开任意页面。
             wx.reLaunch({ 
-              url: '/pages/index/main?flag_user=1&flag_admin=0', //1表示true,0表示false
+              url: `/pages/index/main?flag_user=${this.flag_user}&flag_admin=${this.flag_admin}`, //1表示true,0表示false
             });
           }, 1000)  
         }else{
@@ -103,25 +99,34 @@ const baseUrl = 'http://127.0.0.1:8080'
       }
     },
 
-    onLoad(){
-      var that = this;
-      wx.request({
-        url: baseUrl+'/user/doFindUsers',
-        method: "GET",
-        //成功回调函数
-        success: (res) => {
-          let data = res.data;
-          console.log(data);
-          var user = '';
-          var users = [];
-          for(let i=0;i<data.length;i++){
-            user = data[i].username;
-            console.log(user);
-            users.push(user);
-          }
-          this.users = users;
-        }
-      })
+    onLoad(option){
+      //接收来自welcome页面的参数
+      this.flag_user = Number(option.flag_user)
+      this.flag_admin = Number(option.flag_admin)
+      //用于判断查询哪个数据表
+      if(this.flag_user == 1){
+        this.identity = "Users";
+      }else if(this.flag_admin == 1){
+        this.identity = "Admin";
+      }
+
+      // wx.request({
+      //   url: baseUrl+'/fengqi/doFindUsers',
+      //   method: "GET",
+      //   //成功回调函数
+      //   success: (res) => {
+      //     let data = res.data;
+      //     console.log(data);
+      //     var user = '';
+      //     var users = [];
+      //     for(let i=0;i<data.length;i++){
+      //       user = data[i].username;
+      //       console.log(user);
+      //       users.push(user);
+      //     }
+      //     this.users = users;
+      //   }
+      // })
     },
   }
   // components: {},
