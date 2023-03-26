@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div  v-if="flag_user">
+    <div  v-if=true>
       <div class="picture">
         <!-- <img src="../../../static/images/qihuo.png" alt=""> -->
         <img src="../../../static/images/anquan.jpg" alt="">

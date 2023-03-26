@@ -85,7 +85,7 @@ const baseUrl = 'http://127.0.0.1:8080'
             //switchTab 只能打开 tabBar 页面。
             //reLaunch 可以打开任意页面。
             wx.reLaunch({ 
-              url: `/pages/index/main?flag_user=${this.flag_user}&flag_admin=${this.flag_admin}`, //1表示true,0表示false
+              url: `/pages/index/main?username=${this.username}&flag_user=${this.flag_user}&flag_admin=${this.flag_admin}`,
             });
           }, 1000)  
         }else{

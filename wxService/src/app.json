@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/index/main",
     "pages/welcome/main",
     "pages/register/main",
     "pages/login/main",
-    "pages/index/main",
     "pages/confirm/main",
     "pages/deposit/main",
     "pages/mine/main",
