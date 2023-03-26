@@ -138,9 +138,9 @@ export default {
     this.flag_user = Boolean(Number(option.flag_user))
     this.flag_admin = Boolean(Number(option.flag_admin))
 
-
     var that = this    
     //开始发送http请求
+    wx.
     //连接MQTT
     that.client = connect(mqttUrl)
 
@@ -167,9 +167,6 @@ export default {
         }
       })
     })
-  },
-  onChange({detail}){
-    this.setData({ checked: detail });
   },
 }
 </script>
