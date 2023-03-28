@@ -9,6 +9,7 @@ var MpvuePlugin = require('webpack-mpvue-asset-plugin')
 var glob = require('glob')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var relative = require('relative')
+var webpack = require("webpack")
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -46,7 +47,8 @@ let baseWebpackConfig = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue': 'mpvue',
-      '@': resolve('src')
+      '@': resolve('src'),
+      'jquery': 'jquery'
     },
     symlinks: false,
     aliasFields: ['mpvue', 'weapp', 'browser'],
@@ -115,7 +117,12 @@ let baseWebpackConfig = {
         to: path.resolve(config.build.assetsRoot, './static'),
         ignore: ['.*']
       }
-    ])
+    ]),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "windows.jQuery": "jquery"
+    })
   ]
 }
 

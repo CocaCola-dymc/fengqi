@@ -1,40 +1,24 @@
 <template>
   <div>
-    <div  v-if=true>
+    <div  v-if="flag_user">
       <div class="picture">
         <!-- <img src="../../../static/images/qihuo.png" alt=""> -->
         <img src="../../../static/images/anquan.jpg" alt="">
       </div>
       <div class="user">
-        <van-image class="img" round width="60px" height="60px" src="/static/avatar/kunkun.png"></van-image>
-        <div class="text">
-          <div>用户名:{{ username }}</div>
-          <div>余额:{{ balance }}</div>
+        <van-image class="img" round width="60px" height="60px" src="/static/avatar/kunkun.png"  @click="onMine"></van-image>
+        <div class="text"  @click="onMine">
+          <div>用户:{{ username }}</div>
+          <div>余额:{{ money }}.00</div>
         </div>
-        <van-button class="deposit" icon="gold-coin-o" type="primary" round>充值</van-button>
+        <van-button class="deposit" icon="gold-coin-o" type="primary" round @click="onDeposit">充值</van-button>
       </div>
       <div class="choose">
         <div>请选择充电套餐</div>
       </div>
-      <div class="combo">
-        <div class="text" id="choose1">1￥ / 10秒钟</div>
-        <van-button class="start" icon="paid" type="info" round>启动</van-button>
-      </div>
-      <div class="combo">
-        <div class="text" id="choose2">2￥ / 20分钟</div>
-        <van-button class="start" icon="paid" type="info" round>启动</van-button>
-      </div>
-      <div class="combo"> 
-        <div class="text" id="choose3">3￥ / 40分钟</div>
-        <van-button class="start" icon="paid" type="info" round>启动</van-button>
-      </div>
-      <div class="combo">
-        <div class="text" id="choose4">4￥ / 60分钟</div>
-        <van-button class="start" icon="paid" type="info" round>启动</van-button>
-      </div>
-      <div class="combo">
-        <div class="text" id="choose5">5￥ / 80分钟</div>
-        <van-button class="start" icon="paid" type="info" round>启动</van-button>
+      <div class="combo" v-for="(item,index) in chooseArrays" :key="index">
+        <div class="text">{{ item }}</div>
+        <van-button class="start" icon="paid" type="info" round @click="onStart(item,index)">启动</van-button>
       </div>
     </div>
 
@@ -93,40 +77,32 @@ export default {
       flag_admin: null,
       client:{},
       info:{},
-      checked: true,
-      username:'kunkun',
-      balance:'1000.00'
+      chooseArrays: ['1￥ / 10秒钟','2￥ / 20分钟','3￥ / 40分钟','4￥ / 60分钟','5￥ / 80分钟'],
+      username:'',
+      money:'',
     };
   },
 
   components: {},
 
   methods: {
-    doorOpen(){
-      var that = this;
-      console.log('开门')
-      that.client.publish(publish_Topic,"1",function(err){
-        if(!err){
-          console.log("门已开启")
-        }
-      })  
+    onDeposit(){
+      wx.navigateTo({
+        url: `/pages/deposit/main?username=${this.username}`,
+      })
     },
 
-    queryUser(){
-      console.log("查询")
-      wx.request({
-        url: baseUrl+'/user/doFindUser',
-        method: "GET",
-        // data: {
-        //   username: username,
-        //   password: password,
-        //   createdTime: createdTime
-        // },
-        //成功回调函数
-        success: (res) => {
-          let data = res.data
-          console.log(data)
-        }
+    onStart(item,index){
+      this.item = item;
+      wx.navigateTo({
+        //传入用户名username、套餐名item、余额money
+        url: `/pages/combo/main?username=${this.username}&item=${this.item}&money=${this.money}`,   
+      })
+    },
+
+    onMine(){   //跳转到mine.vue
+      wx.reLaunch({
+        url: `/pages/mine/main?username=${this.username}&flag_admin=${this.flag_admin1}&flag_user=${this.flag_user1}`, 
       })
     }
   },
@@ -135,12 +111,28 @@ export default {
     //获取注册页面传入的参数
     //传入的参数为string类型，需要转换成Number类型,再转换成Boolean类型
     //先将字符串"1"和"0"转换成数字1和0,再通过Boolean转换成true和false
-    this.flag_user = Boolean(Number(option.flag_user))
-    this.flag_admin = Boolean(Number(option.flag_admin))
-
-    var that = this    
+    this.flag_user = Boolean(Number(option.flag_user));
+    this.flag_admin = Boolean(Number(option.flag_admin));
+    this.flag_user1 = option.flag_user;     //传递给mine.vue
+    this.flag_admin1 = option.flag_admin;    //传递给mine.vue
+    this.username = option.username;
+    // this.username = 'tony';
     //开始发送http请求
-    wx.
+    wx.request({
+      url: baseUrl + '/fengqi/doQueryUser',
+      method: "POST",
+      data:{
+        username: this.username,
+      },
+      header: { 'content-type': 'application/x-www-form-urlencoded'},
+      success: (res) =>{
+        let data = res.data;
+        this.username = data[0].username;
+        this.money = data[0].money;
+      }
+    })
+
+    var that = this 
     //连接MQTT
     that.client = connect(mqttUrl)
 
@@ -167,7 +159,9 @@ export default {
         }
       })
     })
+    
   },
+  
 }
 </script>
 

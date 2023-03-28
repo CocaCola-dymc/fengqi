@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './confirm'
+import App from './combo'
 
 // add this to handle exception
 Vue.config.errorHandler = function (err) {

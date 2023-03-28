@@ -1,11 +1,12 @@
 {
   "pages": [
-    "pages/index/main",
     "pages/welcome/main",
-    "pages/register/main",
-    "pages/login/main",
-    "pages/confirm/main",
+    "pages/index/main",
+    "pages/charge/main",
+    "pages/combo/main",
     "pages/deposit/main",
+    "pages/login/main",
+    "pages/register/main",
     "pages/mine/main",
     "pages/settings/main"
   ],
@@ -41,6 +42,12 @@
     "van-col": "@vant/weapp/col/index",
     "van-icon": "@vant/weapp/icon/index",
     "van-field": "@vant/weapp/field/index",
-    "van-switch": "@vant/weapp/switch/index"
+    "van-switch": "@vant/weapp/switch/index",
+    "van-radio": "@vant/weapp/radio/index",
+    "van-radio-group": "@vant/weapp/radio-group/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-count-down": "@vant/weapp/count-down/index",
+    "van-notify": "@vant/weapp/notify/index"
   }
 }
