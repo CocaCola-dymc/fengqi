@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dymc.mapper.LogMapper">
+    <!--
+     1)useGeneratedKeys="true" 表示使用insert操作自动生成的主键值.
+     2)keyProperty="id"将自增的主键值赋值给参数对象activity的id属性
+     -->
+
+    <!--    插入用户充电记录-->
+    <insert id="insertLog"
+            parameterType="com.dymc.pojo.Log"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into fq_log
+        (username,combo,createdTime)
+        values
+        (#{username},#{combo},now())
+    </insert>
+
+<!--    用户查询自己的充电记录-->
+    <select id="queryLog"
+            resultType="com.dymc.pojo.Log">
+        select username,combo,createdTime
+        from fq_log
+        <where>
+            username = #{username}
+        </where>
+    </select>
+
+<!--    管理员查询所有用户的充电记录-->
+    <select id="queryLogs"
+            resultType="com.dymc.pojo.Log">
+        select username,combo,createdTime
+        from fq_log
+    </select>
+
+</mapper>
