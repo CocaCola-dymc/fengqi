@@ -68,6 +68,8 @@ const baseUrl = 'http://127.0.0.1:8080'
             this.row = row;
           }
         })
+        //定义username的全局变量
+        this.globalData.username = this.username;
 
         //注册一个定时器,目的是等请求得到数据后在进行判断
         setTimeout(() => {
@@ -85,7 +87,7 @@ const baseUrl = 'http://127.0.0.1:8080'
             //switchTab 只能打开 tabBar 页面。
             //reLaunch 可以打开任意页面。
             wx.reLaunch({ 
-              url: `/pages/index/main?username=${this.username}&flag_user=${this.flag_user}&flag_admin=${this.flag_admin}`,
+              url: '/pages/index/main?',
             });
           }, 1000)  
         }else{
@@ -99,10 +101,10 @@ const baseUrl = 'http://127.0.0.1:8080'
       }
     },
 
-    onLoad(option){
-      //接收来自welcome页面的参数
-      this.flag_user = Number(option.flag_user)
-      this.flag_admin = Number(option.flag_admin)
+    onLoad(){
+      //使用welcome定义的全局变量
+      this.flag_user = this.globalData.flag_user;
+      this.flag_admin = this.globalData.flag_admin;
       //用于判断查询哪个数据表
       if(this.flag_user == 1){
         this.identity = "Users";

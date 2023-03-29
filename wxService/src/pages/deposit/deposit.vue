@@ -102,7 +102,7 @@ export default {
             }
             setTimeout(() => {
               wx.reLaunch({
-                url: '/pages/index/main?flag_user=1&flag_admin=0', //1表示true,0表示false
+                url: '/pages/index/main',
               })
             }, 2000);
           }
@@ -117,9 +117,10 @@ export default {
     }
   },
 
-  onLoad(option){
-    // this.username = option.username;
-    this.username = 'tony';
+  onLoad(){
+    this.username = this.globalData.username;
+    // this.globalData.flag_user  = 1;
+    // this.globalData.flag_admin = 0;
   }
 }
 

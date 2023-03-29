@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div  v-if="flag_user">
+    <div v-if="flag_user">
       <div class="picture">
         <!-- <img src="../../../static/images/qihuo.png" alt=""> -->
         <img src="../../../static/images/anquan.jpg" alt="">
@@ -25,6 +25,7 @@
     <div v-if="flag_admin">
       <div class="operate">
         <div>管理员操作</div>
+        <div>{{ username }}</div>
       </div>
       <div class="container">
         <div class="box">
@@ -49,7 +50,7 @@
           </div>
         </div>
         <div class="box">
-          <van-image class="image" width="40px" height="40px" src="/static/images/zhuangtai.png"></van-image>
+          <van-image class="image" width="64px" height="64px" src="/static/images/chongdian.png"></van-image>
           <div class="text">
             <div>充电详情</div>
           </div>
@@ -88,7 +89,7 @@ export default {
   methods: {
     onDeposit(){
       wx.navigateTo({
-        url: `/pages/deposit/main?username=${this.username}`,
+        url: '/pages/deposit/main',
       })
     },
 
@@ -96,41 +97,40 @@ export default {
       this.item = item;
       wx.navigateTo({
         //传入用户名username、套餐名item、余额money
-        url: `/pages/combo/main?username=${this.username}&item=${this.item}&money=${this.money}`,   
+        url: `/pages/combo/main?item=${this.item}&money=${this.money}`,   
       })
     },
 
     onMine(){   //跳转到mine.vue
       wx.reLaunch({
-        url: `/pages/mine/main?username=${this.username}&flag_admin=${this.flag_admin1}&flag_user=${this.flag_user1}`, 
+        url: '/pages/mine/main', 
       })
     }
   },
 
-  onLoad(option){
-    //获取注册页面传入的参数
-    //传入的参数为string类型，需要转换成Number类型,再转换成Boolean类型
-    //先将字符串"1"和"0"转换成数字1和0,再通过Boolean转换成true和false
-    this.flag_user = Boolean(Number(option.flag_user));
-    this.flag_admin = Boolean(Number(option.flag_admin));
-    this.flag_user1 = option.flag_user;     //传递给mine.vue
-    this.flag_admin1 = option.flag_admin;    //传递给mine.vue
-    this.username = option.username;
-    // this.username = 'tony';
+  onLoad(){
+    //获取全局变量
+    //全局变量为Number类型,转换成Boolean类型,进行判断
+    this.flag_user = Boolean(this.globalData.flag_user);
+    this.flag_admin = Boolean(this.globalData.flag_admin);
+    this.username = this.globalData.username;
+
+    if(this.flag_user){ //如果是普通用户
     //开始发送http请求
-    wx.request({
-      url: baseUrl + '/fengqi/doQueryUser',
-      method: "POST",
-      data:{
-        username: this.username,
-      },
-      header: { 'content-type': 'application/x-www-form-urlencoded'},
-      success: (res) =>{
-        let data = res.data;
-        this.username = data[0].username;
-        this.money = data[0].money;
-      }
-    })
+      wx.request({
+        url: baseUrl + '/fengqi/doQueryUser',
+        method: "POST",
+        data:{
+          username: this.username,
+        },
+        header: { 'content-type': 'application/x-www-form-urlencoded'},
+        success: (res) =>{
+          let data = res.data;
+          this.username = data[0].username;
+          this.money = data[0].money;
+        }
+      })
+    }
 
     var that = this 
     //连接MQTT

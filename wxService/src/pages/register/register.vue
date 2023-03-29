@@ -64,25 +64,6 @@ const baseUrl = 'http://127.0.0.1:8080'
   
   
     methods: {
-      onLoad(){
-        // // 前台判断username是否存在数据库
-        // wx.request({
-        //   url: baseUrl+'/fengqi/doFindUsers',
-        //   method: "GET",
-        //   //成功回调函数
-        //   success: (res) => {
-        //     let data = res.data;
-        //     // console.log(data);
-        //     let user = '';
-        //     let users = [];
-        //     for(let i=0;i<data.length;i++){
-        //       user = data[i].username;
-        //       users.push(user);
-        //     }
-        //     this.users = users;
-        //   }
-        // })
-      },
 
       //重置功能函数
       onReset(){
@@ -210,11 +191,15 @@ const baseUrl = 'http://127.0.0.1:8080'
                 //switchTab 只能打开 tabBar 页面。
                 //reLaunch 可以打开任意页面。
                 wx.reLaunch({ 
-                url: '/pages/index/main?flag_user=1&flag_admin=0', //1表示true,0表示false
+                url: '/pages/index/main', 
               });
               }, 2000)  
             }
           })
+          //定义全局变量
+          this.globalData.username = this.username;
+          this.globalData.flag_user  = 1;
+          this.globalData.flag_admin = 0;             //1表示true,0表示false
         }else if(!this.checkUsername1){
           wx.showToast({
             title: '用户名设置错误',
@@ -234,6 +219,26 @@ const baseUrl = 'http://127.0.0.1:8080'
             duration: 2000
           })
         }
+      },
+
+      onLoad(){
+        // // 前台判断username是否存在数据库
+        // wx.request({
+        //   url: baseUrl+'/fengqi/doFindUsers',
+        //   method: "GET",
+        //   //成功回调函数
+        //   success: (res) => {
+        //     let data = res.data;
+        //     // console.log(data);
+        //     let user = '';
+        //     let users = [];
+        //     for(let i=0;i<data.length;i++){
+        //       user = data[i].username;
+        //       users.push(user);
+        //     }
+        //     this.users = users;
+        //   }
+        // })
       }
     }
   }

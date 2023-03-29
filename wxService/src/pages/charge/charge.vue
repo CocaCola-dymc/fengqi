@@ -36,6 +36,7 @@
         </div>
       </van-tab>
     </van-tabs>
+    <van-button class="button" round type="primary" icon="replay" @click="onIndex">返回首页</van-button>
   </div>
 </template>
 
@@ -62,18 +63,22 @@ export default {
         duration: 1000
       })
       this.flag_charge = false
+    },
+
+    onIndex(){
+      wx.reLaunch({
+        url: '/pages/index/main'
+      })
     }
   },
 
   onLoad(option){
-    let combo = option.combo;
-    let time = option.time;
-    let username = option.username;
+    let combo = option.combo;     //接收combo.vue传入的参数
+    let time = option.time;       //接收combo.vue传入的参数
     let active = option.active;   //接收mine.vue传入的参数
     let flag_charge = Boolean(Number(option.flag_charge));
-    let flag_admin = Boolean(Number(option.flag_admin));
-    let flag_user = Boolean(Number(option.flag_user));
-    // console.log(flag_admin, flag_user)
+    let flag_user = Boolean(this.globalData.flag_user);
+    let flag_admin = Boolean(this.globalData.flag_admin);
 
     let chargeArray=[];
     chargeArray.push(combo);
@@ -81,6 +86,7 @@ export default {
     this.time = Number(time)*1000;
     this.flag_charge = flag_charge;
     this.active = Number(active);
+    this.username = this.globalData.username;
     this.flag_admin = flag_admin;
     this.flag_user = flag_user;
 
@@ -90,7 +96,7 @@ export default {
         url: baseUrl+'/fengqi/doQueryLog',
         methods: "POST",
         data:{
-          username: username,
+          username: this.username,
         },
         header: { 'content-type': 'application/x-www-form-urlencoded'},
         success:(res)=>{
@@ -121,4 +127,9 @@ export default {
 </script>
 
 <style scoped>
+.button{
+  position: fixed;
+  bottom: 40px;
+  left: 133px;
+}
 </style>

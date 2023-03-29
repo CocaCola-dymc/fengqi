@@ -70,8 +70,8 @@ export default {
                       duration: 2000
                     })
                     setTimeout(() => {
-                      wx.reLaunch({
-                        url: `/pages/charge/main?username=${username}&combo=${comboName}&time=${time}&flag_charge=1&flag_user=1&flag_admin=0`
+                      wx.navigateTo({
+                        url: `/pages/charge/main?combo=${comboName}&time=${time}&flag_charge=1`
                       })
                     }, 2000);
                   }
@@ -107,7 +107,7 @@ export default {
   },
   
   onLoad(option){
-    this.username = option.username;
+    this.username = this.globalData.username;
     this.combo = option.item;
     this.money = option.money;
   },

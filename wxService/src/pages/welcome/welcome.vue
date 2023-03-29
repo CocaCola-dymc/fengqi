@@ -13,7 +13,6 @@
   </template>
   
   <script>
-
   
   export default {
     data () {
@@ -26,13 +25,18 @@
     methods: {
       adminLogin(){
         wx.navigateTo({
-          url:'/pages/login/main?flag_user=0&flag_admin=1'
+          url:'/pages/login/main'
         })
+        //定义全局变量
+        this.globalData.flag_user = 0;
+        this.globalData.flag_admin = 1;
       },
       userLogin(){
         wx.navigateTo({
-          url:'/pages/login/main?flag_user=1&flag_admin=0'
+          url:'/pages/login/main'
         })
+        this.globalData.flag_user  = 1;
+        this.globalData.flag_admin = 0;
       },
       register(){
         wx.navigateTo({
@@ -42,7 +46,7 @@
     },
   
     onLoad(){
-      
+
     }
   }
   </script>

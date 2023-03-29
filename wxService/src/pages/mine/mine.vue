@@ -42,19 +42,16 @@ export default {
 
     chargeRecord(){
       wx.navigateTo({
-        url: `/pages/charge/main?active=1&username=${this.username}&flag_admin=${this.flag_admin}&flag_user=${this.flag_user}`,   // active=1,切换到内容2
+        url: '/pages/charge/main?active=1',   // active=1,切换到内容2
       })
     }
 
   },
-
-  onLoad(option){
-    let username = option.username;
-    let flag_admin = option.flag_admin;   //传递给charge.vue
-    let flag_user = option.flag_user;     //传递给charge.vue
-    this.username = username;
-    this.flag_admin = flag_admin;
-    this.flag_user  = flag_user;
+  
+  onLoad(){
+    this.username = this.globalData.username;
+    this.flag_user  = this.globalData.flag_user;
+    this.flag_admin = this.globalData.flag_admin;
   }
 }
 </script>
