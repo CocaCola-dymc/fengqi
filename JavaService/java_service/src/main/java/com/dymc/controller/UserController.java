@@ -10,14 +10,51 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user/")
+@RequestMapping("/fengqi/")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping("doFindUser")
-    public List<User> doFindUser(){
-        return userService.findUser();
+//    查询用户的所有信息
+    @RequestMapping("doFindUsers")
+    public List<User> doFindUsers(){
+        return userService.findUsers();
+    }
+
+//  查询用户名是否存在数据库(注册前)
+    @RequestMapping("doQueryUser")
+    public List<User> doQueryUser(User user){
+        return userService.queryUser(user);
+    }
+
+//    新增用户(注册)
+    @RequestMapping("doInsertUser")
+    public int doInsertUser(User user){
+        return userService.insertUser(user);
+    }
+
+//    查询用户是否存在(登录)
+    @RequestMapping("doQueryUsers")
+    public List<User> doQueryUsers(User user){
+        return userService.queryUsers(user);
+    }
+
+//    用户充值
+    @RequestMapping("doDepositUser")
+    public int doDepositUser(User user){
+        return userService.depositUser(user);
+    }
+
+//    用户使用充电套餐
+    @RequestMapping("doChargeUser")
+    public int doChargeUser(User user){
+        return userService.chargeUser(user);
+    }
+
+//    删除用户
+    @RequestMapping("doDeleteUser")
+    public int doDeleteUser(User user){
+        return userService.deleteUser(user);
     }
 }

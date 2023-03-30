@@ -11,7 +11,7 @@
 <!--    查询用户所有信息-->
     <select id="findUsers"
             resultType="com.dymc.pojo.User">
-        select id,username,password,phone,createdTime
+        select id,username,password,phone,money,createdTime
         from
         fq_user
     </select>
@@ -32,9 +32,9 @@
             useGeneratedKeys="true"
             keyProperty="id">
         insert into fq_user
-        (username,password,phone,createdTime)
+        (username,password,phone,money,createdTime)
         values
-        (#{username},#{password},#{phone},now())
+        (#{username},#{password},#{phone},0,now())
     </insert>
 
 <!--    查询用户是否存在(登录)-->
@@ -48,4 +48,33 @@
             password=#{password}
         </where>
     </select>
+
+<!--    用户充值-->
+    <update id="depositUser"
+            parameterType="com.dymc.pojo.User">
+        update fq_user
+        set
+        money = money + #{money}
+        where
+        username = #{username}
+    </update>
+
+<!--    用户使用充电套餐-->
+    <update id="chargeUser"
+            parameterType="com.dymc.pojo.User">
+        update fq_user
+        set
+        money = money - #{money}
+        where
+        username = #{username}
+    </update>
+
+<!--    删除用户-->
+    <delete id="deleteUser"
+            parameterType="com.dymc.pojo.User">
+        delete from fq_user
+        <where>
+            username = #{username}
+        </where>
+    </delete>
 </mapper>

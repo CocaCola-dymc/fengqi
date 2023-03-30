@@ -13,18 +13,21 @@ public class LogServiceImpl implements LogService{
     @Autowired
     private LogMapper logMapper;
 
+//    插入用户充电记录
     @Override
     public int insertLog(Log log) {
         int rows = logMapper.insertLog(log);
         return rows;
     }
 
+//    用户查询自己的充电记录
     @Override
     public List<Log> queryLog(Log log) {
         List<Log> list = logMapper.queryLog(log);
         return list;
     }
 
+//    管理员查询所有用户的充电记录
     @Override
     public List<Log> queryLogs(Log log) {
         List<Log> list = logMapper.queryLogs(log);
