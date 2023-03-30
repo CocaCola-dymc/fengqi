@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <div class="box_user">
+      <div class="box_user" @click="onLogout">
         <van-image class="img" round width="60px" height="60px" src="/static/avatar/kunkun.png"></van-image>
         <div class="text">{{ username }}</div>
       </div>
@@ -15,6 +15,15 @@
         <div class="text">设置</div>
         <div class="arrow">>&nbsp;&nbsp;&nbsp;</div>
       </div>
+
+      <van-action-sheet
+        :show="show"
+        :actions="actions"
+        cancel-text="取消"
+        description="确定要退出登陆吗"
+        @close="onClose"
+        @select="onSelect"
+      />
     </div>
   </div>
 </template>
@@ -28,6 +37,8 @@ export default {
       username: '',
       flag_admin: null,
       flag_user: null,
+      show: false,
+      actions:[{name:'退出登录',color:'#ee0a24'}]
     }
   },
 
@@ -35,8 +46,6 @@ export default {
     settings(){
       wx.navigateTo({
         url: '/pages/settings/main',
-        success: (result) => {
-        },
       }); 
     },
 
@@ -44,6 +53,28 @@ export default {
       wx.navigateTo({
         url: '/pages/charge/main?active=1',   // active=1,切换到内容2
       })
+    },
+
+    onLogout(){           //点击用户栏弹出退出提示
+      this.show = true;
+    },
+
+    onClose(){
+      this.show = false   //点击屏幕关闭退出提示
+    },
+
+    onSelect(){
+      wx.showToast({
+        title: '已退出登录',
+        icon: 'success',
+        duration: 1000
+      })
+      setTimeout(() => {
+        wx.navigateTo({
+          url: '/pages/welcome/main'
+        })
+      }, 1000);
+      
     }
 
   },

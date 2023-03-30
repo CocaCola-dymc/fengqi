@@ -32,24 +32,23 @@
           <van-image class="image" width="64px" height="64px" src="/static/images/wendu.png"></van-image>
           <div class="text">
             <div>温度</div>
-            <div>24°C</div>
+            <div>{{ temp }}°C</div>
           </div>
         </div>
         <div class="box">
           <van-image class="image" width="64px" height="64px" src="/static/images/deng.png"></van-image>
           <div class="text">
             <div>车场灯</div>
-            <van-switch v-model="checked" bind:change="onChange" />
+            <van-switch :checked="checked" @change="onChange" />
           </div>
         </div>
-        <div class="box">
-          <van-image class="image" width="64px" height="64px" src="/static/images/fengmingqi.png"></van-image>
+        <div class="box" @click="onList">
+          <van-image class="image" width="64px" height="64px" src="/static/images/list.png"></van-image>
           <div class="text">
-            <div>报警器</div>
-            <div>关闭</div>
+            <div>用户列表</div>
           </div>
         </div>
-        <div class="box">
+        <div class="box" @click="chargeRecord">
           <van-image class="image" width="64px" height="64px" src="/static/images/chongdian.png"></van-image>
           <div class="text">
             <div>充电详情</div>
@@ -68,8 +67,9 @@ const mqttPort = "8083";
 const mqttUrl = `wx://${mqttHost}:${mqttPort}/mqtt`;
 const baseUrl = 'http://127.0.0.1:8080'
 
-const publish_Topic = "door_topic";         //发布主题
-const subscribe_Topic = "card_topic";       //订阅主题
+const pubLed  =  "led_topic";         //发布灯主题
+const subTemp = "temp_topic";         //订阅温度主题
+
 
 export default {
   data () {
@@ -81,6 +81,9 @@ export default {
       chooseArrays: ['1￥ / 10秒钟','2￥ / 20分钟','3￥ / 40分钟','4￥ / 60分钟','5￥ / 80分钟'],
       username:'',
       money:'',
+      data: '',
+      checked: null,
+      temp: 0,
     };
   },
 
@@ -105,15 +108,48 @@ export default {
       wx.reLaunch({
         url: '/pages/mine/main', 
       })
-    }
+    },
+
+    //小程序控制开灯关灯
+    onChange(){     //改变灯的开关状态
+      let flag_led;
+      this.checked = !this.checked; 
+      if(this.checked){
+        flag_led = {"type":"led","flag":"on"};
+      }else{
+        flag_led = {"type":"led","flag":"off"};
+      }
+      let msg = JSON.stringify(flag_led)
+      //发布话题
+      this.client.publish(pubLed,msg,function(err){
+        if(!err){
+          console.log('成功发布pubLed')
+        }
+      })
+    },
+
+    //跳转到用户列表
+    onList(){
+      wx.navigateTo({
+        url: '/pages/list/main',
+      })
+    },
+
+    chargeRecord(){
+      wx.navigateTo({
+        url: '/pages/charge/main?active=1',   // active=1,切换到内容2
+      })
+    },
   },
 
   onLoad(){
     //获取全局变量
     //全局变量为Number类型,转换成Boolean类型,进行判断
     this.flag_user = Boolean(this.globalData.flag_user);
-    this.flag_admin = Boolean(this.globalData.flag_admin);
-    this.username = this.globalData.username;
+    this.flag_admin = true
+    // this.flag_admin = Boolean(this.globalData.flag_admin);
+    // this.username = this.globalData.username;
+    this.username = "tony";
 
     if(this.flag_user){ //如果是普通用户
     //开始发送http请求
@@ -132,33 +168,34 @@ export default {
       })
     }
 
+    if(this.flag_admin){ //如果是管理员
+
+    }
+
     var that = this 
     //连接MQTT
     that.client = connect(mqttUrl)
-
     //连接成功时返回的信息
     that.client.on("connect",function (){
       console.log("connect ok")
-      //订阅主题
-      that.client.subscribe(subscribe_Topic,function(err){
-        if(!err){
-          console.log('成功订阅topic')
-        }
-      })
-      //接收topic的信息并且打印
-      that.client.on("message",function(topic,message){
-        //message是16进制的Buffered字节流
-        console.log(topic)
-        // console.log(message)
-        let dataFromDev = {}
-        try{
-          dataFromDev = JSON.parse(message)
-          console.log(dataFromDev);
-        }catch(error){
-          console.log(error)
-        }
-      })
     })
+    //订阅温度主题
+    that.client.subscribe(subTemp,function(err){
+      if(!err){
+        console.log('成功订阅subTemp')
+      }
+    })
+    //接收topic的信息并且打印
+    that.client.on("message",(topic,message)=>{
+      //message是16进制的Buffered字节流
+      // console.log(topic)
+      let temp = message.toString()
+      // console.log(message.toString())
+      this.temp = temp;
+      // let dataFromDev = {}
+      // dataFromDev = JSON.parse(message)
+      // console.log(dataFromDev);
+    })  
     
   },
   
@@ -229,8 +266,8 @@ img{
   margin: 10px;
 }
 .container .text{
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  margin-left: 20px;
+  margin-left: 12px;
 }
 </style>
