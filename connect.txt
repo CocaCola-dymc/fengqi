@@ -12,6 +12,9 @@ esp32		光敏传感器	P14		DO
 esp32		蜂鸣器		P22		I/O
 esp32		MG90S舵机	P12		PWM
 esp32		LED		P15		二极管正极
+esp32		数显器		P25		数显器1正极
+esp32		数显器		P26		数显器2正极
+esp32		数显器		P27		数显器3正极
 
 
 
